@@ -3,9 +3,11 @@
 
 #include "../Numero.Definitions/DataTypeDefines.h"
 #include "Matrix.h"
+#include <sstream>
 
 namespace Numero
 {
+	using namespace std;
 	using namespace Definitions;
 
 	namespace DataTypes
@@ -24,6 +26,9 @@ namespace Numero
 		public:
 			Dense(uint rows, uint cols) : Matrix(rows, cols) { Allocate(rows, cols); };
 
+			void ResetToConstant(T constantVal);
+			uint Numel() const;
+
 			// base class implementations - get/set for elements in matrix
 			virtual T GetValue(uint row, uint col) const;
 			virtual void SetValue(uint row, uint col, T value);
@@ -32,6 +37,9 @@ namespace Numero
 
 			// helper functions
 			uint Matrix2Index(uint row, uint col) const;
+
+			// IO functions
+			string ToString() const;
 		};
 	}
 }

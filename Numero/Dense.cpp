@@ -9,6 +9,7 @@ template <class T>
 void Dense<T>::Allocate(uint rows, uint cols)
 {
 	matrixData = new T[rows*cols];
+	ResetToConstant(static_cast<T>(0));
 };
 
 // matrix data memory deallocation method
@@ -19,6 +20,22 @@ void Dense<T>::Deallocate()
 }
 #pragma endregion
 
+
+template <class T>
+uint Dense<T>::Numel() const
+{
+	return nRows*nCols;
+}
+
+template <class T>
+void Dense<T>::ResetToConstant(T constantVal)
+{
+	uint numElements = Numel();
+	for (uint index(0); index < numElements; index++)
+	{
+		matrixData[index] = constantVal;
+	}
+}
 
 #pragma region BASE_INTERFACE_IMPLEMENTATION
 template <class T>
@@ -51,5 +68,35 @@ void Dense<T>::operator()(uint row, uint col, T value)
 template <class T> uint Dense<T>::Matrix2Index(uint row, uint col) const
 {
 	return col + row*(nCols);
+}
+#pragma endregion
+
+
+#pragma region IO
+// validated
+template <class T>
+string Dense<T>::ToString() const
+{
+	ostringstream ss;
+
+	ss << "[";
+	for (uint row(0); row < nRows; row++)
+	{
+		for (uint col(0); col < nCols; col++)
+		{
+			ss << GetValue(row, col);
+
+			if (col != nCols - 1)
+				ss << ",";
+
+		}
+
+		if (row != nRows - 1)
+			ss << ";" << endl;
+		else
+			ss << "]" << endl;
+	}
+
+	return ss.str();
 }
 #pragma endregion

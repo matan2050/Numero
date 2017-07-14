@@ -35,6 +35,10 @@ namespace Numero
 			virtual T operator()(uint row, uint col) const;
 			virtual void operator()(uint row, uint col, T value);
 
+			// mathematical methods
+			T Trace() const;
+			Dense<T> Transpose() const;
+
 			// helper functions
 			uint Matrix2Index(uint row, uint col) const;
 

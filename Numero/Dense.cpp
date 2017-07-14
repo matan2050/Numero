@@ -21,12 +21,14 @@ void Dense<T>::Deallocate()
 #pragma endregion
 
 
+// number of elements in matrix
 template <class T>
 uint Dense<T>::Numel() const
 {
 	return nRows*nCols;
 }
 
+// reset all values in matrix to a given value
 template <class T>
 void Dense<T>::ResetToConstant(T constantVal)
 {
@@ -38,24 +40,28 @@ void Dense<T>::ResetToConstant(T constantVal)
 }
 
 #pragma region BASE_INTERFACE_IMPLEMENTATION
+// get value at i,j index
 template <class T>
 T Dense<T>::GetValue(uint row, uint col) const
 {
 	return matrixData[Matrix2Index(row, col)];
 }
 
+// set value in i,j index
 template <class T>
 void Dense<T>::SetValue(uint row, uint col, T value)
 {
 	matrixData[Matrix2Index(row, col)] = value;
 }
 
+// get value in i,j index
 template <class T>
 T Dense<T>::operator()(uint row, uint col) const
 {
 	return GetValue(row, col);
 }
 
+// set value in i,j index
 template <class T>
 void Dense<T>::operator()(uint row, uint col, T value)
 {
@@ -64,8 +70,48 @@ void Dense<T>::operator()(uint row, uint col, T value)
 #pragma endregion
 
 
+#pragma region MATHEMATICAL_FUNCTIONS
+// validated
+// function to return trace - sum of diagonal elements in matrix
+template <class T>
+T Dense<T>::Trace() const
+{
+	T trace = static_cast<T>(0);
+	uint nElements = Numel();
+	uint diagonalJump = nCols + 1;
+
+	for (uint diagonalIndex(0); diagonalIndex < nElements; diagonalIndex += diagonalJump)
+	{
+		trace += matrixData[diagonalIndex];
+	}
+
+	return trace;
+}
+
+template <class T>
+// validated
+// function to transpose matrix
+Dense<T> Dense<T>::Transpose() const
+{
+	Dense<T> transposed(nCols, nRows);
+
+	for (uint rowIndex(0); rowIndex < nRows; rowIndex++)
+	{
+		for (uint colIndex(0); colIndex < nCols; colIndex++)
+		{
+			transposed.SetValue(colIndex, rowIndex, GetValue(rowIndex, colIndex));
+		}
+	}
+
+	return transposed;
+}
+
+#pragma endregion
+
 #pragma region HELPER_FUNCTIONS
-template <class T> uint Dense<T>::Matrix2Index(uint row, uint col) const
+// convert two-dimensional index to one-dimensional index
+template <class T>
+uint Dense<T>::Matrix2Index(uint row, uint col) const
 {
 	return col + row*(nCols);
 }
@@ -73,7 +119,7 @@ template <class T> uint Dense<T>::Matrix2Index(uint row, uint col) const
 
 
 #pragma region IO
-// validated
+// matlab style string outputter
 template <class T>
 string Dense<T>::ToString() const
 {

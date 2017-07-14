@@ -21,6 +21,7 @@ void Dense<T>::Deallocate()
 #pragma endregion
 
 
+
 // number of elements in matrix
 template <class T>
 uint Dense<T>::Numel() const
@@ -38,6 +39,8 @@ void Dense<T>::ResetToConstant(T constantVal)
 		matrixData[index] = constantVal;
 	}
 }
+
+
 
 #pragma region BASE_INTERFACE_IMPLEMENTATION
 // get value at i,j index
@@ -70,6 +73,7 @@ void Dense<T>::operator()(uint row, uint col, T value)
 #pragma endregion
 
 
+
 #pragma region MATHEMATICAL_FUNCTIONS
 // validated
 // function to return trace - sum of diagonal elements in matrix
@@ -88,9 +92,9 @@ T Dense<T>::Trace() const
 	return trace;
 }
 
-template <class T>
 // validated
 // function to transpose matrix
+template <class T>
 Dense<T> Dense<T>::Transpose() const
 {
 	Dense<T> transposed(nCols, nRows);
@@ -99,14 +103,14 @@ Dense<T> Dense<T>::Transpose() const
 	{
 		for (uint colIndex(0); colIndex < nCols; colIndex++)
 		{
-			transposed.SetValue(colIndex, rowIndex, GetValue(rowIndex, colIndex));
+			transposed.matrixData[colIndex + rowIndex*nRows] = matrixData[rowIndex + colIndex*nCols];
 		}
 	}
 
 	return transposed;
 }
-
 #pragma endregion
+
 
 #pragma region HELPER_FUNCTIONS
 // convert two-dimensional index to one-dimensional index
@@ -116,6 +120,7 @@ uint Dense<T>::Matrix2Index(uint row, uint col) const
 	return col + row*(nCols);
 }
 #pragma endregion
+
 
 
 #pragma region IO

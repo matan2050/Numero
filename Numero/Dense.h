@@ -38,6 +38,8 @@ namespace Numero
 			// mathematical methods
 			T Trace() const;
 			Dense<T> Transpose() const;
+			void RowInterchange(uint rowA, uint rowB);
+			void ColInterchange(uint colA, uint colB);
 
 			// helper functions
 			uint Matrix2Index(uint row, uint col) const;

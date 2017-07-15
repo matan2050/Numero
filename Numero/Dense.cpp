@@ -109,6 +109,52 @@ Dense<T> Dense<T>::Transpose() const
 
 	return transposed;
 }
+
+// validated
+// function to interchange two rows
+template <class T>
+void Dense<T>::RowInterchange(uint rowA, uint rowB)
+{
+	T* tempBuffer = new T[nCols];
+
+	// copy first row to a buffer
+	for (uint rowElement(0); rowElement < nCols; rowElement++)
+	{
+		tempBuffer[rowElement] = matrixData[rowA*nCols + rowElement];
+	}
+
+	// interchange the two rows using the buffer
+	for (uint rowElement(0); rowElement < nCols; rowElement++)
+	{
+		matrixData[rowA*nCols + rowElement] = matrixData[rowB*nCols + rowElement];
+		matrixData[rowB*nCols + rowElement] = tempBuffer[rowElement];
+	}
+
+	delete[] tempBuffer;
+}
+
+//validated
+// function to interchange two columns
+template <class T>
+void Dense<T>::ColInterchange(uint colA, uint colB)
+{
+	T* tempBuffer = new T[nRows];
+
+	// copy first row to a buffer
+	for (uint colElement(0); colElement < nCols; colElement++)
+	{
+		tempBuffer[colElement] = matrixData[colA + colElement * nCols];
+	}
+
+	// interchange the two rows using the buffer
+	for (uint colElement(0); colElement < nRows; colElement++)
+	{
+		matrixData[colA + colElement * nCols] = matrixData[colB + colElement * nCols];
+		matrixData[colB + colElement * nCols] = tempBuffer[colElement];
+	}
+
+	delete[] tempBuffer;
+}
 #pragma endregion
 
 

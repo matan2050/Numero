@@ -35,6 +35,10 @@ namespace Numero
 			virtual T operator()(uint row, uint col) const;
 			virtual void operator()(uint row, uint col, T value);
 
+			// concatenation methods
+			Dense<T> ConcatRows(const Dense<T>& _matrix_b);
+			Dense<T> ConcatCols(const Dense<T>& _matrix_b);
+
 			// mathematical methods
 			T Trace() const;
 			Dense<T> Transpose() const;

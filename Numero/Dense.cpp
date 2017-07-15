@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "Dense.h"
 
 using namespace Numero;
@@ -73,6 +74,58 @@ void Dense<T>::operator()(uint row, uint col, T value)
 #pragma endregion
 
 
+#pragma region CONCATENATION_FUNCTIONS
+// validated
+// vertical concatenation of two matrices into a new matrix
+// TODO: consider switching GetValue and SetValue to actual usage of matrixData
+template <class T>
+Dense<T> Dense<T>::ConcatRows(const Dense<T>& matrixB)
+{
+	assert(nCols == matrixB.nCols);
+
+	uint newRowNum = nRows + matrixB.nRows;
+
+	Dense<T> concat(newRowNum, nCols);
+
+	for (uint i(0); i < newRowNum; i++)
+	{
+		for (uint j(0); j < nCols; j++)
+		{
+			if (i >= nRows)
+				concat.SetValue(i, j, matrixB.GetValue(i - nRows, j));
+			else
+				concat.SetValue(i, j, GetValue(i, j));
+		}
+	}
+	return concat;
+}
+
+// validated
+// horizontal concatenation of two matrices into a new matrix
+// TODO: consider switching SetValue to actual usage of matrixData
+template <class T>
+Dense<T> Dense<T>::ConcatCols(const Dense<T>& matrixB)
+{
+	assert(nRows == matrixB.nRows);
+
+	uint newColNum = nCols + matrixB.nCols;
+
+	Dense<T> concat(nRows, newColNum);
+
+	for (uint i(0); i < nRows; i++)
+	{
+		for (uint j(0); j < newColNum; j++)
+		{
+			if (j >= nCols)
+				concat.SetValue(i, j, matrixB.GetValue(i, j - nCols));
+			else
+				concat.SetValue(i, j, GetValue(i, j));
+		}
+	}
+	return concat;
+}
+
+#pragma endregion
 
 #pragma region MATHEMATICAL_FUNCTIONS
 // validated

@@ -42,10 +42,12 @@ namespace Numero
 
 			// mathematical methods
 			T Trace() const;
+			T Determinant() const;
 			Dense<T> Transpose() const;
+			Dense<T> Diagonal() const;
 			void RowInterchange(uint rowA, uint rowB);
 			void ColInterchange(uint colA, uint colB);
-			Dense<T> Minor(uint deletedRowIndex, uint deletedColIndex);
+			Dense<T> Minor(uint deletedRowIndex, uint deletedColIndex) const;
 			void MulRowByScalar(uint row, T scalar);
 			void MulColByScalar(uint col, T scalar);
 

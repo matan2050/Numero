@@ -167,6 +167,47 @@ T Dense<T>::Trace() const
 }
 
 // validated
+// function to calculate determinant of Dense matrix
+template <class T>
+T Dense<T>::Determinant() const
+{
+	assert(nRows == nCols);
+	
+	T det = (T)0;
+
+	if (nRows == 1)
+	{
+		return GetValue(0, 0);
+	}
+
+	if (nRows == 2)
+	{
+		det += GetValue(0, 0)*GetValue(1, 1) - GetValue(0, 1)*GetValue(1, 0);
+		return det;
+	}
+
+	int sign;
+
+	for (int i(0); i < nCols; i++)
+	{
+		if (i % 2 != 0)
+		{
+			sign = -1;
+		}
+		else
+		{
+			sign = 1;
+		}
+
+		Dense<T> minor = Minor(0, i);
+		T scalarFactor = GetValue(0, i);
+		det += sign*scalarFactor*minor.Determinant();
+	}
+
+	return det;
+}
+
+// validated
 // function to transpose matrix
 template <class T>
 Dense<T> Dense<T>::Transpose() const
@@ -182,6 +223,21 @@ Dense<T> Dense<T>::Transpose() const
 	}
 
 	return transposed;
+}
+
+// validated
+// outputs a vector containing elements in the diagonal positions
+template <class T>
+Dense<T> Dense<T>::Diagonal() const
+{
+	Dense<T> diag(1, nRows);
+
+	for (uint i(0); i < nRows; i++)
+	{
+		diag.matrixData[i] = matrixData[i + i*nCols];
+	}
+
+	return diag;
 }
 
 // validated
@@ -243,8 +299,9 @@ void Dense<T>::MulRowByScalar(uint row, T scalar)
 
 // validated
 // function returns a new matrix which is the first minor of the original matrix
+// excluding the inputted row and column
 template <class T>
-Dense<T> Dense<T>::Minor(uint excludedRowIndex, uint excludedColIndex)
+Dense<T> Dense<T>::Minor(uint excludedRowIndex, uint excludedColIndex) const
 {
 	Dense<T> sub(nRows - 1, nCols - 1);
 

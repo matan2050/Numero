@@ -74,6 +74,7 @@ void Dense<T>::operator()(uint row, uint col, T value)
 #pragma endregion
 
 
+
 #pragma region CONCATENATION_FUNCTIONS
 // validated
 // vertical concatenation of two matrices into a new matrix
@@ -125,7 +126,27 @@ Dense<T> Dense<T>::ConcatCols(const Dense<T>& matrixB)
 	return concat;
 }
 
+template <class T>
+Dense<T> Dense<T>::SubMatrix(uint startRow, uint endRow, uint startCol, uint endCol)
+{
+	uint newRowCount = endRow - startRow + 1;	// +1 becuase zero based
+	uint newColCount = endCol - startCol + 1;
+
+	Dense<T> sub(newRowCount, newColCount);
+
+	for (uint i(0); i < newRowCount; i++)
+	{
+		for (uint j(0); j < newColCount; j++)
+		{
+			sub.SetValue(i, j, GetValue(startRow + i, startCol + j));
+		}
+	}
+
+	return sub;
+}
 #pragma endregion
+
+
 
 #pragma region MATHEMATICAL_FUNCTIONS
 // validated
@@ -218,6 +239,36 @@ void Dense<T>::MulRowByScalar(uint row, T scalar)
 	{
 		matrixData[row*nCols + i] *= scalar;
 	}
+}
+
+// validated
+// function returns a new matrix which is the first minor of the original matrix
+template <class T>
+Dense<T> Dense<T>::Minor(uint excludedRowIndex, uint excludedColIndex)
+{
+	Dense<T> sub(nRows - 1, nCols - 1);
+
+	uint subRowIndex, subColIndex;
+	for (uint rowIndex(0), subRowIndex(0); rowIndex < nRows; rowIndex++)
+	{
+		if (rowIndex == excludedRowIndex)
+			continue;
+
+		for (uint colIndex(0), subColIndex(0); colIndex < nCols; colIndex++)
+		{
+			if (colIndex == excludedColIndex)
+				continue;
+
+			sub.SetValue(subRowIndex,
+				subColIndex,
+				GetValue(rowIndex, colIndex));
+
+			subColIndex++;
+		}
+
+		subRowIndex++;
+	}
+	return sub;
 }
 
 // validated

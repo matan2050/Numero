@@ -38,12 +38,14 @@ namespace Numero
 			// concatenation methods
 			Dense<T> ConcatRows(const Dense<T>& _matrix_b);
 			Dense<T> ConcatCols(const Dense<T>& _matrix_b);
+			Dense<T> SubMatrix(uint startRow, uint endRow, uint startCol, uint endCol);
 
 			// mathematical methods
 			T Trace() const;
 			Dense<T> Transpose() const;
 			void RowInterchange(uint rowA, uint rowB);
 			void ColInterchange(uint colA, uint colB);
+			Dense<T> Minor(uint deletedRowIndex, uint deletedColIndex);
 			void MulRowByScalar(uint row, T scalar);
 			void MulColByScalar(uint col, T scalar);
 

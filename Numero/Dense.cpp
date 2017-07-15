@@ -133,7 +133,7 @@ void Dense<T>::RowInterchange(uint rowA, uint rowB)
 	delete[] tempBuffer;
 }
 
-//validated
+// validated
 // function to interchange two columns
 template <class T>
 void Dense<T>::ColInterchange(uint colA, uint colB)
@@ -154,6 +154,28 @@ void Dense<T>::ColInterchange(uint colA, uint colB)
 	}
 
 	delete[] tempBuffer;
+}
+
+// validated
+// multiplies a row by a scalar value
+template <class T>
+void Dense<T>::MulRowByScalar(uint row, T scalar)
+{
+	for (uint i(0); i < nCols; i++)
+	{
+		matrixData[row*nCols + i] *= scalar;
+	}
+}
+
+// validated
+// multiplies a column by a scalar value
+template <class T>
+void Dense<T>::MulColByScalar(uint col, T scalar)
+{
+	for (uint i(0); i < nRows; i++)
+	{
+		matrixData[col + i*nCols] *= scalar;
+	}
 }
 #pragma endregion
 

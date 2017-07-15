@@ -40,6 +40,8 @@ namespace Numero
 			Dense<T> Transpose() const;
 			void RowInterchange(uint rowA, uint rowB);
 			void ColInterchange(uint colA, uint colB);
+			void MulRowByScalar(uint row, T scalar);
+			void MulColByScalar(uint col, T scalar);
 
 			// helper functions
 			uint Matrix2Index(uint row, uint col) const;

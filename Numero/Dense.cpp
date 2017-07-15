@@ -338,6 +338,23 @@ void Dense<T>::MulColByScalar(uint col, T scalar)
 		matrixData[col + i*nCols] *= scalar;
 	}
 }
+
+// validated
+// element wise matrix to matrix multiplication
+template <class T>
+Dense<T> Dense<T>::MulElementwise(Dense<T>& other) const
+{
+	assert((nRows == other.nRows) && (nCols == other.nCols));
+	uint nElements = Numel();
+	Dense<T> multiplied(nRows, nCols);
+
+	for (uint i(0); i < nElements; i++)
+	{
+		multiplied.matrixData[i] = matrixData[i] * other.matrixData[i];
+	}
+	
+	return multiplied;
+}
 #pragma endregion
 
 

@@ -50,6 +50,7 @@ namespace Numero
 			Dense<T> Minor(uint deletedRowIndex, uint deletedColIndex) const;
 			void MulRowByScalar(uint row, T scalar);
 			void MulColByScalar(uint col, T scalar);
+			Dense<T> MulElementwise(Dense<T>& other) const;
 
 			// helper functions
 			uint Matrix2Index(uint row, uint col) const;

@@ -355,6 +355,34 @@ Dense<T> Dense<T>::MulElementwise(Dense<T>& other) const
 	
 	return multiplied;
 }
+
+// validated
+// naive code for matrix multiplication. consider refactoring and optimizations
+template <class T>
+Dense<T> Dense<T>::Mul(Dense<T>& other) const
+{
+	uint productRows = nRows;
+	uint productCols = other.nCols;
+
+	Dense<T> product(productRows, productCols);
+
+	for (uint i(0); i < productRows; i++)
+	{
+		for (uint j(0); j < productCols; j++)
+		{
+			T element = (T)0;
+
+			for (uint k(0); k < nCols; k++)
+			{
+				element += GetValue(i, k) * other.GetValue(k, j);
+			}
+
+			product.SetValue(i, j, element);
+		}
+	}
+
+	return product;
+}
 #pragma endregion
 
 

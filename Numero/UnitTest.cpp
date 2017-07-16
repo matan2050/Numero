@@ -27,6 +27,18 @@ int main()
 	cout << "matrix after adding consecutive values:" << endl;
 	std::cout << simple3x3.ToString();
 
+	// define another matrix
+	Dense<int> another3x4(3, 4);
+	another3x4.ResetToConstant(1);
+	cout << "another matrix of size [3,4] and all ones:" << endl;
+	cout << another3x4.ToString();
+
+	// test matrix multpilication
+	Dense<int> mult = simple3x3.Mul(another3x4);
+	cout << "multiplication of the two above matrices:" << endl;
+	cout << mult.ToString();
+
+
 	// test trace function
 	int trace = simple3x3.Trace();
 	cout << "trace: " << trace << endl;

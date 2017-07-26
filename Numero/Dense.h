@@ -51,7 +51,8 @@ namespace Numero
 			void MulRowByScalar(uint row, T scalar);
 			void MulColByScalar(uint col, T scalar);
 			Dense<T> MulElementwise(Dense<T>& other) const;
-            Dense<T> Mul(Dense<T>& other) const;
+            Dense<T> MulNaive(Dense<T>& other) const;
+			Dense<T> MulTransposed(Dense<T>& other) const;
 
 			// helper functions
 			uint Matrix2Index(uint row, uint col) const;

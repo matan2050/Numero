@@ -33,8 +33,21 @@ int main()
 	cout << "another matrix of size [3,4] and all ones:" << endl;
 	cout << another3x4.ToString();
 
+	another3x4(0, 1, 2);
+	another3x4(0, 2, 3);
+	another3x4(0, 3, 4);
+	another3x4(1, 0, 5);
+	another3x4(1, 1, 6);
+	another3x4(1, 2, 7);
+	another3x4(1, 3, 8);
+	another3x4(2, 0, 9);
+	another3x4(2, 1, 0);
+	another3x4(2, 2, 1);
+	another3x4(2, 3, 2);
+
 	// test matrix multpilication
-	Dense<int> mult = simple3x3.Mul(another3x4);
+	//Dense<int> mult = simple3x3.MulNaive(another3x4);
+	Dense<int> mult = simple3x3.MulTransposed(another3x4);
 	cout << "multiplication of the two above matrices:" << endl;
 	cout << mult.ToString();
 

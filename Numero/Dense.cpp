@@ -212,13 +212,16 @@ T Dense<T>::Determinant() const
 template <class T>
 Dense<T> Dense<T>::Transpose() const
 {
-	Dense<T> transposed(nCols, nRows);
+	int transCols = nRows;
+	int transRows = nCols;
 
-	for (uint rowIndex(0); rowIndex < nRows; rowIndex++)
+	Dense<T> transposed(transRows, transCols);
+
+	for (int rowIndex(0); rowIndex < transRows; rowIndex++)
 	{
-		for (uint colIndex(0); colIndex < nCols; colIndex++)
+		for (int colIndex(0); colIndex < transCols; colIndex++)
 		{
-			transposed.matrixData[colIndex + rowIndex*nRows] = matrixData[rowIndex + colIndex*nCols];
+			transposed.SetValue(rowIndex, colIndex, GetValue(colIndex, rowIndex));
 		}
 	}
 
@@ -358,9 +361,12 @@ Dense<T> Dense<T>::MulElementwise(Dense<T>& other) const
 
 // validated
 // naive code for matrix multiplication. consider refactoring and optimizations
+// currently, all access to matrix data is done through GetValue and SetValue
 template <class T>
-Dense<T> Dense<T>::Mul(Dense<T>& other) const
+Dense<T> Dense<T>::MulNaive(Dense<T>& other) const
 {
+	assert(nCols == other.nRows);
+
 	uint productRows = nRows;
 	uint productCols = other.nCols;
 
@@ -375,6 +381,34 @@ Dense<T> Dense<T>::Mul(Dense<T>& other) const
 			for (uint k(0); k < nCols; k++)
 			{
 				element += GetValue(i, k) * other.GetValue(k, j);
+			}
+
+			product.SetValue(i, j, element);
+		}
+	}
+
+	return product;
+}
+
+template <class T>
+Dense<T> Dense<T>::MulTransposed(Dense<T>& other) const
+{
+	Dense<T> otherTransposed = other.Transpose();
+
+	uint productRows = nRows;
+	uint productCols = other.nCols;
+
+	Dense<T> product(productRows, productCols);
+
+	for (uint i(0); i < productRows; i++)
+	{
+		for (uint j(0); j < productCols; j++)
+		{
+			T element = (T)0;
+
+			for (uint k(0); k < nCols; k++)
+			{
+				element += GetValue(i, k) * otherTransposed.GetValue(j, k);
 			}
 
 			product.SetValue(i, j, element);

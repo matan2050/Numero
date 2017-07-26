@@ -1,5 +1,6 @@
 #include "Dense.cpp"
 #include <iostream>
+#include <ctime>
 
 using namespace std;
 using namespace Numero::DataTypes;
@@ -33,7 +34,7 @@ int main()
 	cout << "another matrix of size [3,4] and all ones:" << endl;
 	cout << another3x4.ToString();
 
-	another3x4(0, 1, 2);
+	/*another3x4(0, 1, 2);
 	another3x4(0, 2, 3);
 	another3x4(0, 3, 4);
 	another3x4(1, 0, 5);
@@ -43,13 +44,35 @@ int main()
 	another3x4(2, 0, 9);
 	another3x4(2, 1, 0);
 	another3x4(2, 2, 1);
-	another3x4(2, 3, 2);
+	another3x4(2, 3, 2);*/
 
 	// test matrix multpilication
-	//Dense<int> mult = simple3x3.MulNaive(another3x4);
-	Dense<int> mult = simple3x3.MulTransposed(another3x4);
+
+	Dense<int> a(1000, 1000);
+	Dense<int> b(1000, 1000);
+	a.ResetToConstant(17);
+	b.ResetToConstant(50);
+
+	clock_t begin = clock();
+	for (int i(0); i < 10; i++)
+	{
+		Dense<int> mult = a.MulNaive(b);
+	}
+	clock_t end = clock();
+	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+	cout << "using naive multiplication: " << elapsed_secs << endl;
+
+	begin = clock();
+	for (int i(0); i < 10; i++)
+	{
+		Dense<int> mult = a.MulTransposed(b);
+	}
+	end = clock();
+	elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+	cout << "using transposed multiplication: " << elapsed_secs << endl;
+
 	cout << "multiplication of the two above matrices:" << endl;
-	cout << mult.ToString();
+	//cout << mult.ToString();
 
 
 	// test trace function

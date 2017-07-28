@@ -48,8 +48,8 @@ int main()
 
 	// test matrix multpilication
 
-	Dense<int> a(1000, 1000);
-	Dense<int> b(1000, 1000);
+	Dense<int> a(100, 100);
+	Dense<int> b(100, 100);
 	a.ResetToConstant(17);
 	b.ResetToConstant(50);
 
@@ -74,6 +74,10 @@ int main()
 	cout << "multiplication of the two above matrices:" << endl;
 	//cout << mult.ToString();
 
+	// test operator overload for multiplying by scalar
+	Dense<int> mulBy10 = simple3x3 * 10;
+	cout << "Matrix: " << endl << simple3x3.ToString();
+	cout << "Multiplied by 10: " << endl << mulBy10.ToString();
 
 	// test trace function
 	int trace = simple3x3.Trace();

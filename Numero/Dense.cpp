@@ -331,6 +331,29 @@ Dense<T> Dense<T>::Minor(uint excludedRowIndex, uint excludedColIndex) const
 	return sub;
 }
 
+
+#pragma region OPERATOR_OVERLOADS
+
+template <class T>
+Dense<T> Dense<T>::operator*(T scalar) const
+{
+	Dense<T> product(nRows, nCols);
+
+	for (int element(0); element < Numel(); element++)
+	{
+		product.matrixData[element] = scalar * matrixData[element];
+	}
+
+	return product;
+}
+
+template <class T>
+Dense<T> Dense<T>::operator*(const Dense<T>& other) const
+{
+	return MulTransposed(other);
+}
+#pragma endregion
+
 // validated
 // multiplies a column by a scalar value
 template <class T>

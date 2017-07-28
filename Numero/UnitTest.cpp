@@ -79,6 +79,29 @@ int main()
 	cout << "Matrix: " << endl << simple3x3.ToString();
 	cout << "Multiplied by 10: " << endl << mulBy10.ToString();
 
+	// test adding scalar to matrix
+	Dense<float> mat(3, 4);
+	mat(0, 0, 1);
+	mat(0, 1, 10);
+	mat(0, 2, 100);
+	mat(0, 3, 1000);
+	mat(1, 0, 10000);
+	mat(1, 1, 100000);
+	mat(1, 2, 1000000);
+	mat(1, 3, 10000000);
+	mat(2, 0, 100000000);
+	mat(2, 1, 1000000000);
+	mat(2, 2, 10000000000);
+	mat(2, 3, 100000000000);
+
+	cout << "matrix:" << endl << mat.ToString();;
+	mat.AddScalar(1);
+	cout << "matrix plus 1:" << endl << mat.ToString();
+
+	Dense<float> matPlus1 = mat.CopyAddScalar(1);
+	cout << "matrix plus another 1, but in new matrix:" << endl << matPlus1.ToString();
+
+
 	// test trace function
 	int trace = simple3x3.Trace();
 	cout << "trace: " << trace << endl;

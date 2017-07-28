@@ -74,6 +74,27 @@ void Dense<T>::operator()(uint row, uint col, T value)
 #pragma endregion
 
 
+#pragma region OPERATOR_OVERLOADS
+
+template <class T>
+Dense<T> Dense<T>::operator*(T scalar) const
+{
+	return CopyMulScalar(scalar);
+}
+
+template <class T>
+Dense<T> Dense<T>::operator*(const Dense<T>& other) const
+{
+	return MulTransposed(other);
+}
+
+template <class T>
+Dense<T> Dense<T>::operator+(T scalar) const
+{
+	return CopyAddScalar(scalar);
+}
+#pragma endregion
+
 
 #pragma region CONCATENATION_FUNCTIONS
 // validated
@@ -145,7 +166,6 @@ Dense<T> Dense<T>::SubMatrix(uint startRow, uint endRow, uint startCol, uint end
 	return sub;
 }
 #pragma endregion
-
 
 
 #pragma region MATHEMATICAL_FUNCTIONS
@@ -331,29 +351,6 @@ Dense<T> Dense<T>::Minor(uint excludedRowIndex, uint excludedColIndex) const
 	return sub;
 }
 
-
-#pragma region OPERATOR_OVERLOADS
-
-template <class T>
-Dense<T> Dense<T>::operator*(T scalar) const
-{
-	Dense<T> product(nRows, nCols);
-
-	for (int element(0); element < Numel(); element++)
-	{
-		product.matrixData[element] = scalar * matrixData[element];
-	}
-
-	return product;
-}
-
-template <class T>
-Dense<T> Dense<T>::operator*(const Dense<T>& other) const
-{
-	return MulTransposed(other);
-}
-#pragma endregion
-
 // validated
 // multiplies a column by a scalar value
 template <class T>
@@ -413,6 +410,9 @@ Dense<T> Dense<T>::MulNaive(Dense<T>& other) const
 	return product;
 }
 
+// validated
+// code for multiplying two matrices with transposing the rhs matrix
+// causes optimization for large matrices.
 template <class T>
 Dense<T> Dense<T>::MulTransposed(Dense<T>& other) const
 {
@@ -440,6 +440,54 @@ Dense<T> Dense<T>::MulTransposed(Dense<T>& other) const
 
 	return product;
 }
+
+template <class T>
+void Dense<T>::AddScalar(T scalar)
+{
+	int nElements = Numel();
+
+	for (int i(0); i < nElements; i++)
+	{
+		matrixData[i] += scalar;
+	}
+}
+
+template <class T>
+Dense<T> Dense<T>::CopyAddScalar(T scalar) const
+{
+	Dense<T> sum(nRows, nCols);
+	int nElements = sum.Numel();
+
+	for (int i(0); i < nElements; i++)
+	{
+		sum.matrixData[i] = matrixData[i] + scalar;
+	}
+	return sum;
+}
+
+template <class T>
+void Dense<T>::MulScalar(T scalar)
+{
+	int nElements = sum.Numel();
+
+	for (int i(0); i < nElements; i++)
+	{
+		matrixData[i] *= scalar;
+	}
+}
+
+template <class T>
+Dense<T> Dense<T>::CopyMulScalar(T scalar) const
+{
+	Dense<T> sum(nRows, nCols);
+	int nElements = sum.Numel();
+
+	for (int i(0); i < nElements; i++)
+	{
+		sum.matrixData[i] = matrixData[i] * scalar;
+	}
+	return sum;
+}
 #pragma endregion
 
 
@@ -451,7 +499,6 @@ uint Dense<T>::Matrix2Index(uint row, uint col) const
 	return col + row*(nCols);
 }
 #pragma endregion
-
 
 
 #pragma region IO

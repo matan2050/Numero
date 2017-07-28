@@ -89,6 +89,12 @@ Dense<T> Dense<T>::operator*(const Dense<T>& other) const
 }
 
 template <class T>
+Dense<T> Dense<T>::operator+(const Dense<T>& other) const
+{
+	return CopyAddMatrix(other);
+}
+
+template <class T>
 Dense<T> Dense<T>::operator+(T scalar) const
 {
 	return CopyAddScalar(scalar);
@@ -477,6 +483,19 @@ void Dense<T>::MulScalar(T scalar)
 }
 
 template <class T>
+void Dense<T>::AddMatrix(const Dense<T>& other)
+{
+	assert((nCols == other.nCols) && (nRows == other.nRows));
+
+	int nElements = Numel();
+
+	for (int i(0); i < nElements; i++)
+	{
+		matrixData[i] += other.matrixData[i];
+	}
+}
+
+template <class T>
 Dense<T> Dense<T>::CopyMulScalar(T scalar) const
 {
 	Dense<T> sum(nRows, nCols);
@@ -486,6 +505,22 @@ Dense<T> Dense<T>::CopyMulScalar(T scalar) const
 	{
 		sum.matrixData[i] = matrixData[i] * scalar;
 	}
+	return sum;
+}
+
+template <class T>
+Dense<T> Dense<T>::CopyAddMatrix(const Dense<T>& other) const
+{
+	assert((nCols == other.nCols) && (nRows == other.nRows));
+
+	Dense<T> sum(nRows, nCols);
+	int nElements = Numel();
+
+	for (int i(0); i < nElements; i++)
+	{
+		sum.matrixData[i] = matrixData[i] + other.matrixData[i];
+	}
+
 	return sum;
 }
 #pragma endregion

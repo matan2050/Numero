@@ -36,10 +36,11 @@ namespace Numero
 			virtual void operator()(uint row, uint col, T value);
 
 			// operator overloads
-			Dense<T> operator*(T scalar) const;
 			Dense<T> operator*(const Dense<T>& other) const;
-
+			Dense<T> operator+(const Dense<T>& other) const;
+			Dense<T> operator*(T scalar) const;
 			Dense<T> operator+(T scalar) const;
+			
 
 			// concatenation methods
 			Dense<T> ConcatRows(const Dense<T>& _matrix_b);
@@ -60,9 +61,11 @@ namespace Numero
             Dense<T> MulNaive(Dense<T>& other) const;
 			Dense<T> MulTransposed(Dense<T>& other) const;
 			void AddScalar(T scalar);
-			Dense<T> CopyAddScalar(T scalar) const;
 			void MulScalar(T scalar);
+			void AddMatrix(const Dense<T>& other);
+			Dense<T> CopyAddScalar(T scalar) const;
 			Dense<T> CopyMulScalar(T scalar) const;
+			Dense<T> CopyAddMatrix(const Dense<T>& other) const;
 
 			// helper functions
 			uint Matrix2Index(uint row, uint col) const;

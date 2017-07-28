@@ -101,6 +101,33 @@ int main()
 	Dense<float> matPlus1 = mat.CopyAddScalar(1);
 	cout << "matrix plus another 1, but in new matrix:" << endl << matPlus1.ToString();
 
+	// test matrix addition
+	Dense<int> d(2, 3);
+	Dense<int> e(2, 3);
+
+	d(0, 0, 1);
+	d(0, 1, 2);
+	d(0, 2, 3);
+	d(1, 0, 3);
+	d(1, 1, 2);
+	d(1, 2, 1);
+	
+	e(0, 0, 3);
+	e(0, 1, 2);
+	e(0, 2, 1);
+	e(1, 0, 1);
+	e(1, 1, 2);
+	e(1, 2, 3);
+
+	cout << "matrix d:" << endl << d.ToString();
+	cout << "matrix e:" << endl << e.ToString();
+
+	Dense<int> c = d + e;
+
+	cout << "sum of a+b:" << endl << c.ToString();
+
+	d.AddMatrix(e);
+	cout << "sum of a+b in a:" << endl << d.ToString();
 
 	// test trace function
 	int trace = simple3x3.Trace();

@@ -28,6 +28,30 @@ int main()
 	cout << "matrix after adding consecutive values:" << endl;
 	std::cout << simple3x3.ToString();
 
+	// test inverse
+	Dense<float> toInverse(3, 3);
+	toInverse(0, 0, 3);
+	toInverse(0, 1, 0);
+	toInverse(0, 2, 2);
+	toInverse(1, 0, 2);
+	toInverse(1, 1, 0);
+	toInverse(1, 2, -2);
+	toInverse(2, 0, 0);
+	toInverse(2, 1, 1);
+	toInverse(2, 2, 1);
+
+	cout << "matrix to inverse:" << endl << toInverse.ToString();
+	Dense<float> inv(3, 3);
+	clock_t begin = clock();
+	for (int i(0); i < 1000; i++)
+	{
+		inv = toInverse.InverseByMinors();
+	}
+	clock_t end = clock();
+	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+	cout << inv.ToString();
+	cout << "time to inverse: " << elapsed_secs << endl;
+
 	// define another matrix
 	Dense<int> another3x4(3, 4);
 	another3x4.ResetToConstant(1);
@@ -48,22 +72,22 @@ int main()
 
 	// test matrix multpilication
 
-	Dense<int> a(100, 100);
-	Dense<int> b(100, 100);
+	Dense<int> a(1000, 1000);
+	Dense<int> b(1000, 1000);
 	a.ResetToConstant(17);
 	b.ResetToConstant(50);
 
-	clock_t begin = clock();
-	for (int i(0); i < 10; i++)
+	begin = clock();
+	for (int i(0); i < 1; i++)
 	{
 		Dense<int> mult = a.MulNaive(b);
 	}
-	clock_t end = clock();
-	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+	end = clock();
+	elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 	cout << "using naive multiplication: " << elapsed_secs << endl;
 
 	begin = clock();
-	for (int i(0); i < 10; i++)
+	for (int i(0); i < 1; i++)
 	{
 		Dense<int> mult = a.MulTransposed(b);
 	}

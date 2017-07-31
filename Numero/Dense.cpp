@@ -197,15 +197,18 @@ T Dense<T>::Trace() const
 template <class T>
 T Dense<T>::Determinant() const
 {
+	// asserting square matrix
 	assert(nRows == nCols);
 	
 	T det = (T)0;
 
+	// stopping condition - matrix of size 1x1
 	if (nRows == 1)
 	{
 		return GetValue(0, 0);
 	}
 
+	// or matrix of size 2x2
 	if (nRows == 2)
 	{
 		det += GetValue(0, 0)*GetValue(1, 1) - GetValue(0, 1)*GetValue(1, 0);
@@ -355,6 +358,42 @@ Dense<T> Dense<T>::Minor(uint excludedRowIndex, uint excludedColIndex) const
 		subRowIndex++;
 	}
 	return sub;
+}
+
+template <class T>
+Dense<T> Dense<T>::InverseByMinors() const
+{
+	assert(nRows == nCols);
+	
+	T determinant = Determinant();
+
+	assert(determinant != 0);
+
+	Dense<T> inverse(nRows, nCols);
+	int sign = 1;
+
+	for (uint i(0); i < nRows; i++)
+	{
+
+		if (i % 2 == 1)
+		{
+			sign = 1;
+		}
+		else
+		{
+			sign = -1;
+		}
+
+		for (uint j(0); j < nCols; j++)
+		{
+			sign *= -1;
+
+			Dense<T> currentMinor = Minor(i, j);
+			inverse.SetValue(i, j, (1/determinant)*sign*currentMinor.Determinant());
+		}
+	}
+
+	return inverse.Transpose();
 }
 
 // validated

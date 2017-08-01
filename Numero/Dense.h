@@ -24,7 +24,10 @@ namespace Numero
 			void Allocate(uint rows, uint cols);
 			void Deallocate();
 		public:
+
+			// --- constructors / destructor
 			Dense(uint rows, uint cols) : Matrix(rows, cols) { Allocate(rows, cols); };
+			~Dense() { Deallocate(); };
 
 			void ResetToConstant(T constantVal);
 			uint Numel() const;

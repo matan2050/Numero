@@ -86,7 +86,7 @@ template <class T>
 Dense<T> Dense<T>::operator*(const Dense<T>& other) const
 {
 	// empirically, naive multiplication is faster in very small matrices
-	if (nCols > 2)
+	if (nRows > 2)
 	{
 		return MulTransposed(other);
 	}

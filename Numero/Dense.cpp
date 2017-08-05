@@ -85,7 +85,15 @@ Dense<T> Dense<T>::operator*(T scalar) const
 template <class T>
 Dense<T> Dense<T>::operator*(const Dense<T>& other) const
 {
-	return MulTransposed(other);
+	// empirically, naive multiplication is faster in very small matrices
+	if (nCols > 2)
+	{
+		return MulTransposed(other);
+	}
+	else
+	{
+		return MulNaive(other);
+	}
 }
 
 template <class T>
@@ -360,6 +368,8 @@ Dense<T> Dense<T>::Minor(uint excludedRowIndex, uint excludedColIndex) const
 	return sub;
 }
 
+// validated for 3x3
+// add in the future Moore-Penrose pseudoinverse algorithm
 template <class T>
 Dense<T> Dense<T>::InverseByMinors() const
 {
@@ -367,7 +377,7 @@ Dense<T> Dense<T>::InverseByMinors() const
 	
 	T determinant = Determinant();
 
-	assert(determinant != 0);
+	assert(determinant != 0);		//TODO: remove assertion and return exception
 
 	Dense<T> inverse(nRows, nCols);
 	int sign = 1;

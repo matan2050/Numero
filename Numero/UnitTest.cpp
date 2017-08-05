@@ -72,27 +72,30 @@ int main()
 
 	// test matrix multpilication
 
-	Dense<int> a(1000, 1000);
-	Dense<int> b(1000, 1000);
+	int aSize = 2;
+	Dense<int> a(aSize, aSize);
+	Dense<int> b(aSize, aSize);
 	a.ResetToConstant(17);
 	b.ResetToConstant(50);
 
+	int cyclesComparison = 10000;
+
 	begin = clock();
-	for (int i(0); i < 1; i++)
+	for (int i(0); i < cyclesComparison; i++)
 	{
 		Dense<int> mult = a.MulNaive(b);
 	}
 	end = clock();
-	elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+	elapsed_secs = double(end - begin);
 	cout << "using naive multiplication: " << elapsed_secs << endl;
 
 	begin = clock();
-	for (int i(0); i < 1; i++)
+	for (int i(0); i < cyclesComparison; i++)
 	{
 		Dense<int> mult = a.MulTransposed(b);
 	}
 	end = clock();
-	elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+	elapsed_secs = double(end - begin);
 	cout << "using transposed multiplication: " << elapsed_secs << endl;
 
 	cout << "multiplication of the two above matrices:" << endl;

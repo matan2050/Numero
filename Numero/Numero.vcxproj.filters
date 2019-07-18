@@ -21,12 +21,21 @@
     <ClInclude Include="Dense.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Sparse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SparseValueTriplet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dense.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SparseValueTriplet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -113,6 +113,8 @@
   <ItemGroup>
     <ClInclude Include="Dense.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Sparse.h" />
+    <ClInclude Include="SparseValueTriplet.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Numero.Definitions\Numero.Definitions.vcxproj">
@@ -121,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dense.cpp" />
+    <ClCompile Include="SparseValueTriplet.cpp" />
     <ClCompile Include="UnitTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

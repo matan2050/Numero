@@ -1,3 +1,5 @@
 *.idb
 *.tlog
 .vs/
+Numero/x64/
+x64/

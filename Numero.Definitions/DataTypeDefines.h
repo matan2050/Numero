@@ -5,7 +5,6 @@ namespace Numero
 {
 	namespace Definitions
 	{
-		typedef unsigned int uint;
 	}
 }
 

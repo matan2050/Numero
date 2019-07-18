@@ -7,7 +7,7 @@ using namespace Numero::DataTypes;
 #pragma region MEMORY_MANIPULATION
 // matrix data memory allocation method
 template <class T>
-void Dense<T>::Allocate(uint rows, uint cols)
+void Dense<T>::Allocate(unsigned int rows, unsigned int cols)
 {
 	matrixData = new T[rows*cols];
 	ResetToConstant(static_cast<T>(0));
@@ -25,7 +25,7 @@ void Dense<T>::Deallocate()
 
 // number of elements in matrix
 template <class T>
-uint Dense<T>::Numel() const
+unsigned int Dense<T>::Numel() const
 {
 	return nRows*nCols;
 }
@@ -34,8 +34,8 @@ uint Dense<T>::Numel() const
 template <class T>
 void Dense<T>::ResetToConstant(T constantVal)
 {
-	uint numElements = Numel();
-	for (uint index(0); index < numElements; index++)
+	unsigned int numElements = Numel();
+	for (unsigned int index(0); index < numElements; index++)
 	{
 		matrixData[index] = constantVal;
 	}
@@ -46,28 +46,28 @@ void Dense<T>::ResetToConstant(T constantVal)
 #pragma region BASE_INTERFACE_IMPLEMENTATION
 // get value at i,j index
 template <class T>
-T Dense<T>::GetValue(uint row, uint col) const
+T Dense<T>::GetValue(unsigned int row, unsigned int col) const
 {
 	return matrixData[Matrix2Index(row, col)];
 }
 
 // set value in i,j index
 template <class T>
-void Dense<T>::SetValue(uint row, uint col, T value)
+void Dense<T>::SetValue(unsigned int row, unsigned int col, T value)
 {
 	matrixData[Matrix2Index(row, col)] = value;
 }
 
 // get value in i,j index
 template <class T>
-T Dense<T>::operator()(uint row, uint col) const
+T Dense<T>::operator()(unsigned int row, unsigned int col) const
 {
 	return GetValue(row, col);
 }
 
 // set value in i,j index
 template <class T>
-void Dense<T>::operator()(uint row, uint col, T value)
+void Dense<T>::operator()(unsigned int row, unsigned int col, T value)
 {
 	SetValue(row, col, value);
 }
@@ -119,13 +119,13 @@ Dense<T> Dense<T>::ConcatRows(const Dense<T>& matrixB)
 {
 	assert(nCols == matrixB.nCols);
 
-	uint newRowNum = nRows + matrixB.nRows;
+	unsigned int newRowNum = nRows + matrixB.nRows;
 
 	Dense<T> concat(newRowNum, nCols);
 
-	for (uint i(0); i < newRowNum; i++)
+	for (unsigned int i(0); i < newRowNum; i++)
 	{
-		for (uint j(0); j < nCols; j++)
+		for (unsigned int j(0); j < nCols; j++)
 		{
 			if (i >= nRows)
 				concat.SetValue(i, j, matrixB.GetValue(i - nRows, j));
@@ -144,13 +144,13 @@ Dense<T> Dense<T>::ConcatCols(const Dense<T>& matrixB)
 {
 	assert(nRows == matrixB.nRows);
 
-	uint newColNum = nCols + matrixB.nCols;
+	unsigned int newColNum = nCols + matrixB.nCols;
 
 	Dense<T> concat(nRows, newColNum);
 
-	for (uint i(0); i < nRows; i++)
+	for (unsigned int i(0); i < nRows; i++)
 	{
-		for (uint j(0); j < newColNum; j++)
+		for (unsigned int j(0); j < newColNum; j++)
 		{
 			if (j >= nCols)
 				concat.SetValue(i, j, matrixB.GetValue(i, j - nCols));
@@ -162,16 +162,16 @@ Dense<T> Dense<T>::ConcatCols(const Dense<T>& matrixB)
 }
 
 template <class T>
-Dense<T> Dense<T>::SubMatrix(uint startRow, uint endRow, uint startCol, uint endCol)
+Dense<T> Dense<T>::SubMatrix(unsigned int startRow, unsigned int endRow, unsigned int startCol, unsigned int endCol)
 {
-	uint newRowCount = endRow - startRow + 1;	// +1 becuase zero based
-	uint newColCount = endCol - startCol + 1;
+	unsigned int newRowCount = endRow - startRow + 1;	// +1 becuase zero based
+	unsigned int newColCount = endCol - startCol + 1;
 
 	Dense<T> sub(newRowCount, newColCount);
 
-	for (uint i(0); i < newRowCount; i++)
+	for (unsigned int i(0); i < newRowCount; i++)
 	{
-		for (uint j(0); j < newColCount; j++)
+		for (unsigned int j(0); j < newColCount; j++)
 		{
 			sub.SetValue(i, j, GetValue(startRow + i, startCol + j));
 		}
@@ -189,10 +189,10 @@ template <class T>
 T Dense<T>::Trace() const
 {
 	T trace = static_cast<T>(0);
-	uint nElements = Numel();
-	uint diagonalJump = nCols + 1;
+	unsigned int nElements = Numel();
+	unsigned int diagonalJump = nCols + 1;
 
-	for (uint diagonalIndex(0); diagonalIndex < nElements; diagonalIndex += diagonalJump)
+	for (unsigned int diagonalIndex(0); diagonalIndex < nElements; diagonalIndex += diagonalJump)
 	{
 		trace += matrixData[diagonalIndex];
 	}
@@ -272,7 +272,7 @@ Dense<T> Dense<T>::Diagonal() const
 {
 	Dense<T> diag(1, nRows);
 
-	for (uint i(0); i < nRows; i++)
+	for (unsigned int i(0); i < nRows; i++)
 	{
 		diag.matrixData[i] = matrixData[i + i*nCols];
 	}
@@ -283,18 +283,18 @@ Dense<T> Dense<T>::Diagonal() const
 // validated
 // function to interchange two rows
 template <class T>
-void Dense<T>::RowInterchange(uint rowA, uint rowB)
+void Dense<T>::RowInterchange(unsigned int rowA, unsigned int rowB)
 {
 	T* tempBuffer = new T[nCols];
 
 	// copy first row to a buffer
-	for (uint rowElement(0); rowElement < nCols; rowElement++)
+	for (unsigned int rowElement(0); rowElement < nCols; rowElement++)
 	{
 		tempBuffer[rowElement] = matrixData[rowA*nCols + rowElement];
 	}
 
 	// interchange the two rows using the buffer
-	for (uint rowElement(0); rowElement < nCols; rowElement++)
+	for (unsigned int rowElement(0); rowElement < nCols; rowElement++)
 	{
 		matrixData[rowA*nCols + rowElement] = matrixData[rowB*nCols + rowElement];
 		matrixData[rowB*nCols + rowElement] = tempBuffer[rowElement];
@@ -306,18 +306,18 @@ void Dense<T>::RowInterchange(uint rowA, uint rowB)
 // validated
 // function to interchange two columns
 template <class T>
-void Dense<T>::ColInterchange(uint colA, uint colB)
+void Dense<T>::ColInterchange(unsigned int colA, unsigned int colB)
 {
 	T* tempBuffer = new T[nRows];
 
 	// copy first row to a buffer
-	for (uint colElement(0); colElement < nCols; colElement++)
+	for (unsigned int colElement(0); colElement < nCols; colElement++)
 	{
 		tempBuffer[colElement] = matrixData[colA + colElement * nCols];
 	}
 
 	// interchange the two rows using the buffer
-	for (uint colElement(0); colElement < nRows; colElement++)
+	for (unsigned int colElement(0); colElement < nRows; colElement++)
 	{
 		matrixData[colA + colElement * nCols] = matrixData[colB + colElement * nCols];
 		matrixData[colB + colElement * nCols] = tempBuffer[colElement];
@@ -329,9 +329,9 @@ void Dense<T>::ColInterchange(uint colA, uint colB)
 // validated
 // multiplies a row by a scalar value
 template <class T>
-void Dense<T>::MulRowByScalar(uint row, T scalar)
+void Dense<T>::MulRowByScalar(unsigned int row, T scalar)
 {
-	for (uint i(0); i < nCols; i++)
+	for (unsigned int i(0); i < nCols; i++)
 	{
 		matrixData[row*nCols + i] *= scalar;
 	}
@@ -341,17 +341,17 @@ void Dense<T>::MulRowByScalar(uint row, T scalar)
 // function returns a new matrix which is the first minor of the original matrix
 // excluding the inputted row and column
 template <class T>
-Dense<T> Dense<T>::Minor(uint excludedRowIndex, uint excludedColIndex) const
+Dense<T> Dense<T>::Minor(unsigned int excludedRowIndex, unsigned int excludedColIndex) const
 {
 	Dense<T> sub(nRows - 1, nCols - 1);
 
-	uint subRowIndex, subColIndex;
-	for (uint rowIndex(0), subRowIndex(0); rowIndex < nRows; rowIndex++)
+	unsigned int subRowIndex, subColIndex;
+	for (unsigned int rowIndex(0), subRowIndex(0); rowIndex < nRows; rowIndex++)
 	{
 		if (rowIndex == excludedRowIndex)
 			continue;
 
-		for (uint colIndex(0), subColIndex(0); colIndex < nCols; colIndex++)
+		for (unsigned int colIndex(0), subColIndex(0); colIndex < nCols; colIndex++)
 		{
 			if (colIndex == excludedColIndex)
 				continue;
@@ -382,7 +382,7 @@ Dense<T> Dense<T>::InverseByMinors() const
 	Dense<T> inverse(nRows, nCols);
 	int sign = 1;
 
-	for (uint i(0); i < nRows; i++)
+	for (unsigned int i(0); i < nRows; i++)
 	{
 
 		if (i % 2 == 1)
@@ -394,7 +394,7 @@ Dense<T> Dense<T>::InverseByMinors() const
 			sign = -1;
 		}
 
-		for (uint j(0); j < nCols; j++)
+		for (unsigned int j(0); j < nCols; j++)
 		{
 			sign *= -1;
 
@@ -409,9 +409,9 @@ Dense<T> Dense<T>::InverseByMinors() const
 // validated
 // multiplies a column by a scalar value
 template <class T>
-void Dense<T>::MulColByScalar(uint col, T scalar)
+void Dense<T>::MulColByScalar(unsigned int col, T scalar)
 {
-	for (uint i(0); i < nRows; i++)
+	for (unsigned int i(0); i < nRows; i++)
 	{
 		matrixData[col + i*nCols] *= scalar;
 	}
@@ -423,10 +423,10 @@ template <class T>
 Dense<T> Dense<T>::MulElementwise(Dense<T>& other) const
 {
 	assert((nRows == other.nRows) && (nCols == other.nCols));
-	uint nElements = Numel();
+	unsigned int nElements = Numel();
 	Dense<T> multiplied(nRows, nCols);
 
-	for (uint i(0); i < nElements; i++)
+	for (unsigned int i(0); i < nElements; i++)
 	{
 		multiplied.matrixData[i] = matrixData[i] * other.matrixData[i];
 	}
@@ -442,18 +442,18 @@ Dense<T> Dense<T>::MulNaive(Dense<T>& other) const
 {
 	assert(nCols == other.nRows);
 
-	uint productRows = nRows;
-	uint productCols = other.nCols;
+	unsigned int productRows = nRows;
+	unsigned int productCols = other.nCols;
 
 	Dense<T> product(productRows, productCols);
 
-	for (uint i(0); i < productRows; i++)
+	for (unsigned int i(0); i < productRows; i++)
 	{
-		for (uint j(0); j < productCols; j++)
+		for (unsigned int j(0); j < productCols; j++)
 		{
 			T element = (T)0;
 
-			for (uint k(0); k < nCols; k++)
+			for (unsigned int k(0); k < nCols; k++)
 			{
 				element += GetValue(i, k) * other.GetValue(k, j);
 			}
@@ -473,18 +473,18 @@ Dense<T> Dense<T>::MulTransposed(Dense<T>& other) const
 {
 	Dense<T> otherTransposed = other.Transpose();
 
-	uint productRows = nRows;
-	uint productCols = other.nCols;
+	unsigned int productRows = nRows;
+	unsigned int productCols = other.nCols;
 
 	Dense<T> product(productRows, productCols);
 
-	for (uint i(0); i < productRows; i++)
+	for (unsigned int i(0); i < productRows; i++)
 	{
-		for (uint j(0); j < productCols; j++)
+		for (unsigned int j(0); j < productCols; j++)
 		{
 			T element = (T)0;
 
-			for (uint k(0); k < nCols; k++)
+			for (unsigned int k(0); k < nCols; k++)
 			{
 				element += GetValue(i, k) * otherTransposed.GetValue(j, k);
 			}
@@ -578,7 +578,7 @@ Dense<T> Dense<T>::CopyAddMatrix(const Dense<T>& other) const
 #pragma region HELPER_FUNCTIONS
 // convert two-dimensional index to one-dimensional index
 template <class T>
-uint Dense<T>::Matrix2Index(uint row, uint col) const
+unsigned int Dense<T>::Matrix2Index(unsigned int row, unsigned int col) const
 {
 	return col + row*(nCols);
 }
@@ -593,9 +593,9 @@ string Dense<T>::ToString() const
 	ostringstream ss;
 
 	ss << "[";
-	for (uint row(0); row < nRows; row++)
+	for (unsigned int row(0); row < nRows; row++)
 	{
-		for (uint col(0); col < nCols; col++)
+		for (unsigned int col(0); col < nCols; col++)
 		{
 			ss << GetValue(row, col);
 

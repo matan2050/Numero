@@ -21,22 +21,22 @@ namespace Numero
 		private:
 			T* matrixData;
 		protected:
-			void Allocate(uint rows, uint cols);
+			void Allocate(unsigned int rows, unsigned int cols);
 			void Deallocate();
 		public:
 
 			// --- constructors / destructor
-			Dense(uint rows, uint cols) : Matrix(rows, cols) { Allocate(rows, cols); };
+			Dense(unsigned int rows, unsigned int cols) : Matrix(rows, cols) { Allocate(rows, cols); };
 			~Dense() { Deallocate(); };
 
 			void ResetToConstant(T constantVal);
-			uint Numel() const;
+			unsigned int Numel() const;
 
 			// --- base class implementations
-			virtual T GetValue(uint row, uint col) const;
-			virtual void SetValue(uint row, uint col, T value);
-			virtual T operator()(uint row, uint col) const;
-			virtual void operator()(uint row, uint col, T value);
+			virtual T GetValue(unsigned int row, unsigned int col) const;
+			virtual void SetValue(unsigned int row, unsigned int col, T value);
+			virtual T operator()(unsigned int row, unsigned int col) const;
+			virtual void operator()(unsigned int row, unsigned int col, T value);
 
 			// --- operator overloads
 			Dense<T> operator*(const Dense<T>& other) const;
@@ -47,21 +47,21 @@ namespace Numero
 			// --- concatenation methods
 			Dense<T> ConcatRows(const Dense<T>& _matrix_b);
 			Dense<T> ConcatCols(const Dense<T>& _matrix_b);
-			Dense<T> SubMatrix(uint startRow, uint endRow, uint startCol, uint endCol);
+			Dense<T> SubMatrix(unsigned int startRow, unsigned int endRow, unsigned int startCol, unsigned int endCol);
 
 			// --- mathematical methods
 			T Trace() const;
 			T Determinant() const;
 			Dense<T> Transpose() const;
 			Dense<T> Diagonal() const;
-			Dense<T> Minor(uint deletedRowIndex, uint deletedColIndex) const;
+			Dense<T> Minor(unsigned int deletedRowIndex, unsigned int deletedColIndex) const;
 			Dense<T> InverseByMinors() const;
 
 			// ------ linear actions on matrix
-			void RowInterchange(uint rowA, uint rowB);
-			void ColInterchange(uint colA, uint colB);
-			void MulRowByScalar(uint row, T scalar);
-			void MulColByScalar(uint col, T scalar);
+			void RowInterchange(unsigned int rowA, unsigned int rowB);
+			void ColInterchange(unsigned int colA, unsigned int colB);
+			void MulRowByScalar(unsigned int row, T scalar);
+			void MulColByScalar(unsigned int col, T scalar);
 
 			// ------ matrix multiplication methods
 			Dense<T> MulElementwise(Dense<T>& other) const;
@@ -79,7 +79,7 @@ namespace Numero
 			Dense<T> CopyAddMatrix(const Dense<T>& other) const;
 
 			// helper functions
-			uint Matrix2Index(uint row, uint col) const;
+			unsigned int Matrix2Index(unsigned int row, unsigned int col) const;
 
 			// IO functions
 			string ToString() const;

@@ -39,6 +39,7 @@ namespace Numero
 			virtual void SetValue(unsigned int row, unsigned int col, T value);
 			virtual T operator()(unsigned int row, unsigned int col) const;
 			virtual void operator()(unsigned int row, unsigned int col, T value);
+            virtual string ToString() const;
 
 			// --- operator overloads
 			Dense<T> operator*(const Dense<T>& other) const;
@@ -82,9 +83,6 @@ namespace Numero
 
 			// helper functions
 			unsigned int Matrix2Index(unsigned int row, unsigned int col) const;
-
-			// IO functions
-			string ToString() const;
 		};
 	}
 }

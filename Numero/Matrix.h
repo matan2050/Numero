@@ -1,10 +1,12 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
+#include <string>
 #include "../Numero.Definitions/DataTypeDefines.h"
 
 namespace Numero
 {
+    using namespace std;
 	using namespace Definitions;
 
 	namespace DataTypes
@@ -27,6 +29,8 @@ namespace Numero
 
 			virtual T operator()(unsigned int _row, unsigned int _col) const = 0;
 			virtual void operator()(unsigned int _row, unsigned int _col, T _value) = 0;
+
+            virtual string ToString() const = 0;
 		};
 	}
 }

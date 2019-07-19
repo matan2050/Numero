@@ -11,7 +11,19 @@ void Dense<T>::Allocate(unsigned int rows, unsigned int cols)
 {
 	matrixData = new T[rows*cols];
 	ResetToConstant(static_cast<T>(0));
-};
+}
+
+template<class T>
+void Dense<T>::Allocate(unsigned int rows, unsigned int cols, const T * data)
+{
+    matrixData = new T[rows*cols];
+
+    for (int i = 0; i < rows*cols; i++)
+    {
+        matrixData[i] = data[i];
+    }
+}
+;
 
 // matrix data memory deallocation method
 template <class T>
@@ -225,7 +237,7 @@ T Dense<T>::Determinant() const
 
 	int sign;
 
-	for (int i(0); i < nCols; i++)
+	for (unsigned int i(0); i < nCols; i++)
 	{
 		if (i % 2 != 0)
 		{

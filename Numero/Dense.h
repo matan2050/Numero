@@ -22,11 +22,13 @@ namespace Numero
 			T* matrixData;
 		protected:
 			void Allocate(unsigned int rows, unsigned int cols);
+            void Allocate(unsigned int rows, unsigned int cols, const T* data);
 			void Deallocate();
 		public:
 
 			// --- constructors / destructor
 			Dense(unsigned int rows, unsigned int cols) : Matrix(rows, cols) { Allocate(rows, cols); };
+            Dense(Dense& other) : Matrix(other.nRows, other.nCols) { Allocate(nRows, nCols, other.matrixData); }
 			~Dense() { Deallocate(); };
 
 			void ResetToConstant(T constantVal);
